@@ -100,9 +100,6 @@ for column in columns_to_lag:
     for i in range(1, lags + 1):
         data[f'{column}_Lag{i}'] = data[column].shift(i)
 
-# # Drop rows where lagged values are missing (optional, as this will remove the rows at the beginning)
-# data_lagged = data.dropna(subset=[f'INDPRO_Lag{i}' for i in range(1, lags + 1)])
-
 
 # Select data starting from 1992
 data = data['1982-01-01':]
@@ -236,7 +233,7 @@ for t in range(len(test_rolling) - 1):
     best_alphas_lasso.append(best_lasso_alpha)
     best_predicts_lasso.append(best_lasso_predict)
 
-    # # Optionally, average the predictions from the best Ridge and Lasso models
+    # # Average the predictions from the best Ridge and Lasso models
     # final_prediction_rolling = (ridge_prediction_rolling + lasso_prediction_rolling) / 2
     # predictions_rolling.append(final_prediction_rolling)
     # true_values_rolling.append(y_test_rolling)
@@ -362,11 +359,10 @@ print(mean_mse_table)
 
 test_rolling = test_rolling[1:]
 # Plotting the true values and predictions
-# Plot historical data from 2005 to 2014
 plt.figure(figsize=(12, 6))
 plt.plot(data['2021-01-01':'2023-11-01'].index, data['2021-01-01':'2023-11-01']['INDPRO'], label='True Values (2021-2023)', color='blue')
 
-# Plot true values and predictions from 2015 onwards
+# Plot true values and predictions
 plt.plot(test_rolling.index, predictions_benchmark, label='Predictions Benchmark(from 06.2021)', color='purple', linestyle='--')
 plt.plot(test_rolling.index, predictions_rolling, label='Predictions Bagging(from 06.2021)', color='red', linestyle='--')
 plt.plot(test_rolling.index, best_predicts_ridge, label='Predictions RIDGE(from 06.2021)', color='green', linestyle='--')
@@ -476,7 +472,7 @@ for t in range(len(test_rolling) - 12):
     best_alphas_lasso.append(best_lasso_alpha)
     best_predicts_lasso.append(best_lasso_predict)
 
-    # # Optionally, average the predictions from the best Ridge and Lasso models
+    # # Average the predictions from the best Ridge and Lasso models
     # final_prediction_rolling = (ridge_prediction_rolling + lasso_prediction_rolling) / 2
     # predictions_rolling.append(final_prediction_rolling)
     # true_values_rolling.append(y_test_rolling)
@@ -603,11 +599,10 @@ print(mean_mse_table)
 
 test_rolling = test_rolling[12:]
 # Plotting the true values and predictions
-# Plot historical data from 2005 to 2014
 plt.figure(figsize=(12, 6))
 plt.plot(data['2021-01-01':'2023-11-01'].index, data['2021-01-01':'2023-11-01']['INDPRO'], label='True Values (2021-2023)', color='blue')
 
-# Plot true values and predictions from 2015 onwards
+# Plot true values and predictions
 plt.plot(test_rolling.index, predictions_benchmark, label='Predictions Benchmark(from 06.2021)', color='purple', linestyle='--')
 plt.plot(test_rolling.index, predictions_rolling, label='Predictions Bagging(from 06.2021)', color='red', linestyle='--')
 plt.plot(test_rolling.index, best_predicts_ridge, label='Predictions RIDGE(from 06.2021)', color='green', linestyle='--')
